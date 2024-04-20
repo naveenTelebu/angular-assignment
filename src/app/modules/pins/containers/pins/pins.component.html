@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="row my-3">
+    <div class="col-12 text-end mb-2">
+      <button class="custom-btn" (click)="openAddCustomerModal()">+ Add Customer</button>
+    </div>
+    <div class="col">
+      <h2>List of Pins</h2>
+    </div>
+    <div class="col text-end">
+      <button class="custom-btn" (click)="openAddPinModal()">+ Add Pin</button>
+    </div>
+  </div>
+  <table class="table table-bordered text-center">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Image</th>
+        <th>Collaborators</th>
+        <th>Privacy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Iterate through pins data and display -->
+      @for (pin of pinsList; track pin.id){
+      <tr>
+        <td>{{ pin.title }}</td>
+        <td>
+          <img [src]="pin.image" alt="Pin Image" style="max-height: 100px" />
+        </td>
+        <td>
+          <ul>
+            @for (collaborator of getCustomerNames(pin.collaborators); track collaborator){
+            <p>{{ collaborator }}</p>
+            }
+          </ul>
+        </td>
+        <td>{{ pin.privacy }}</td>
+      </tr>
+      }@empty {
+      <h1>Empty list of pins</h1>
+      }
+    </tbody>
+  </table>
+</div>

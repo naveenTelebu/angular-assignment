@@ -1,0 +1,113 @@
+<div class="dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Create a Pin</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="closeModal()"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="pinForm" (ngSubmit)="onSubmit()">
+        <div
+          [ngClass]="{
+            'invalid-input': errorHandling('title', 'required')
+          }"
+          class="mb-3"
+        >
+          <label for="title" class="form-label">Title*</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="title"
+            id="title"
+            placeholder="Enter pin title"
+          />
+          @if(errorHandling('title', 'required')){
+          <div class="alert-danger">Title is required</div>
+          }
+        </div>
+        <div
+          [ngClass]="{
+            'invalid-input': errorHandling('image', 'required')
+          }"
+          class="mb-3"
+        >
+          <label for="image" class="form-label">Image*</label>
+          <div class="dropzone">
+            <div
+              (drop)="onDrop($event)"
+              (dragover)="onDragOver($event)"
+              (click)="openFileInput()"
+            >
+              <button class="choose-file-button btn btn-dark">
+                Choose File
+              </button>
+              <p>Drag & Drop Image file or click to select</p>
+              <input
+                formControlName="image"
+                #fileInput
+                accept="image/*"
+                (change)="onFileSelected($event)"
+                style="display: none"
+              />
+            </div>
+          </div>
+          <div *ngIf="selectedFileName" class="file-details mt-2">
+            <span>{{ selectedFileName }}</span>
+          </div>
+          @if(errorHandling('image', 'required')){
+          <div class="alert-danger">Image is required</div>
+          }
+        </div>
+        <div
+          [ngClass]="{
+            'ng-input': errorHandling('collaborators', 'required')
+          }"
+          class="mb-3"
+        >
+          <label for="collaborators" class="form-label">Collaborators*</label>
+          <ngx-select
+            optionValueField="id"
+            optionTextField="title"
+            [items]="customers"
+            [multiple]="true"
+            formControlName="collaborators"
+            placeholder="Select collaborators"
+          ></ngx-select>
+          @if(errorHandling('collaborators', 'required')){
+          <div class="alert-danger">Collaborators is required</div>
+          }
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Privacy*</label>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="privacy"
+              id="public"
+              value="Public"
+            />
+            <label class="form-check-label" for="public">Public</label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="privacy"
+              id="private"
+              value="Private"
+            />
+            <label class="form-check-label" for="private">Private</label>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <button type="submit" class="custom-btn">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,93 @@
+<div class="dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Create a Customer</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="closeModal()"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+        <div
+          [ngClass]="{
+            'invalid-input': errorHandling('name', 'required')
+          }"
+          class="mb-3"
+        >
+          <label for="name" class="form-label">Name*</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            id="name"
+            required
+          />
+          @if(errorHandling('name', 'required')){
+          <div class="alert-danger">Name is required</div>
+          }
+        </div>
+        <div
+          [ngClass]="{
+            'invalid-input': errorHandling('email', 'required')
+          }"
+          class="mb-3"
+        >
+          <label for="email" class="form-label">Email*</label>
+          <input
+            type="email"
+            class="form-control"
+            formControlName="email"
+            id="email"
+            required
+          />
+          @if(errorHandling('email', 'required')){
+          <div class="alert-danger">Email is required</div>
+          }
+        </div>
+        <div
+          [ngClass]="{
+            'ng-input': errorHandling('region', 'required')
+          }"
+          class="mb-3"
+        >
+          <label for="region" class="form-label">Region*</label>
+          <ngx-select
+            formControlName="region"
+            optionValueField="id"
+            optionTextField="title"
+            (select)="onRegionChange($event)"
+            [items]="regionItems"
+            placeholder="No region selected"
+          ></ngx-select>
+          @if(errorHandling('region', 'required')){
+          <div class="alert-danger">Region is required</div>
+          }
+        </div>
+        <div
+          [ngClass]="{
+            'ng-input': errorHandling('country', 'required')
+          }"
+          class="mb-3"
+        >
+          <label for="country" class="form-label">Country*</label>
+          <ngx-select
+            formControlName="country"
+            optionValueField="id"
+            optionTextField="title"
+            [items]="countryItems"
+            placeholder="No Country selected"
+          ></ngx-select>
+          @if(errorHandling('country', 'required')){
+          <div class="alert-danger">Country is required</div>
+          }
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <button type="submit" class="custom-btn">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
